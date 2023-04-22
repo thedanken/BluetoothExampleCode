@@ -29,13 +29,14 @@ int main()
     BufferedSerial::None,
      1
   );
+  blue.set_blocking(false);
   printf("Bluetooth Start\r\n");
 
-  char buf[MAXBUFFSIZE] = {0};  
   string s;
     // echo back characters and toggle the LED
     while (1) 
     {
+      char buf[MAXBUFFSIZE] = {0};  
         if (blue.readable()) 
         {
           blue.read(buf, sizeof(buf));
@@ -48,7 +49,6 @@ int main()
           {
             LedBlue = !LedBlue;
           }
-          clearbuffer();
         }
         if (pc.readable()) 
         {
@@ -56,6 +56,8 @@ int main()
           blue.write(buf, sizeof(buf));
           
         }
+        blue.write("testing\n", sizeof("testing\n")-1);
+        osDelay(1000);
     }
 }
 void clearbuffer()
